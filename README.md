@@ -1,4 +1,4 @@
-# Charecter-Movement# Project: Character Movement
+# Project: Character Movement
 
 ### Objective: Develop a general purpose polished character movement system.
 
