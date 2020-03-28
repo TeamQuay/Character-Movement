@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://graphics/sprites/background/stone-bg.png" type="Texture" id=1]
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/environment/Rock.tscn" type="PackedScene" id=3]
+[ext_resource path="res://graphics/sprites/background/grass.png" type="Texture" id=4]
+[ext_resource path="res://scenes/HealthBar.tscn" type="PackedScene" id=5]
+
+[node name="Main" type="Node2D"]
+
+[node name="WorldBorder" type="StaticBody2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="WallColliderBack" type="CollisionPolygon2D" parent="WorldBorder"]
+polygon = PoolVector2Array( -8, -8, 304, -416, 1496, -416, 1504, 1736, 1088, 1920, 1080, 8 )
+
+[node name="WallColliderFront" type="CollisionPolygon2D" parent="WorldBorder"]
+polygon = PoolVector2Array( 1072, 1920, 664, 2128, -376, 2128, -384, 400, -8, 8, -8, 1920 )
+
+[node name="GrassBG" type="Sprite" parent="."]
+position = Vector2( -8, -8 )
+scale = Vector2( 0.12254, 0.127648 )
+texture = ExtResource( 4 )
+centered = false
+region_enabled = true
+region_rect = Rect2( -448, 0, 8944, 15104 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="StoneBG" type="Sprite" parent="."]
+visible = false
+position = Vector2( 532.837, 968.422 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="Rock" parent="YSort" instance=ExtResource( 3 )]
+position = Vector2( 242.069, 1037.44 )
+
+[node name="Rock2" parent="YSort" instance=ExtResource( 3 )]
+position = Vector2( 606.792, 1321.8 )
+
+[node name="Rock3" parent="YSort" instance=ExtResource( 3 )]
+position = Vector2( 920, 640 )
+
+[node name="Player" parent="YSort" instance=ExtResource( 2 )]
+position = Vector2( 544, 1752 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="HUD" instance=ExtResource( 5 )]
+visible = false
