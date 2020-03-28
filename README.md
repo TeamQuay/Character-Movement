@@ -4,6 +4,8 @@
 
 Make sure to get familiar with the [Godot Engine](https://godotengine.org/) and GDScript. ([Documentation](https://docs.godotengine.org/en/stable/about/index.html))
 
+Also note the [code style guidelines](https://www.gdquest.com/docs/guidelines/best-practices/godot-gdscript/) that we will be following for this project.
+
 ### Rough Tasks List
 - consult designers on what sorts of movement needed
 - update character sprites
