@@ -53,5 +53,4 @@ script = SubResource( 2 )
 [node name="PitCollider" type="CollisionShape2D" parent="."]
 position = Vector2( -2.72545, 13.1464 )
 rotation = 1.5708
-scale = Vector2( 1, 1 )
 shape = SubResource( 3 )
