@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/stone-bg.png-690a0263ec3fd0f0ebc3a7827f7842bd.stex"
+path="res://.import/firepit-flames-sprite-sheet-ps.png-21f40c0dc71a23303b06e00da06902f6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/sprites/background/stone-bg.png"
-dest_files=[ "res://.import/stone-bg.png-690a0263ec3fd0f0ebc3a7827f7842bd.stex" ]
+source_file="res://graphics/sprites/background/firepit-flames-sprite-sheet-ps.png"
+dest_files=[ "res://.import/firepit-flames-sprite-sheet-ps.png-21f40c0dc71a23303b06e00da06902f6.stex" ]
 
 [params]
 
