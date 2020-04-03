@@ -1,0 +1,49 @@
+extends TouchScreenButton
+
+
+var radius = Vector2(150, 150)	# Radius of the button
+var max_dist = 250 				# How far the button can be dragged from center
+var drag = -1					# Tracks which pointer is touching the screen
+var snap_accel = 20				# Accel for button to snap back to center
+var movement_threshold = 100	# Max dist from center to move button before movement
+
+
+func get_button_pos():
+	return position + radius
+	
+# Done each frame
+func _process(delta):
+	if (drag == -1):
+		# return button to the center
+		var pos_diff = (Vector2.ZERO - radius) - position
+		position += pos_diff * snap_accel * delta
+		
+
+func _input(event):
+	# check for if button is being dragged or pressed (for mobile devices)
+	# in project settings > input devices > pointing, check "emulate touch from mouse"
+	if (event is InputEventScreenDrag or (event is InputEventScreenTouch and event.is_pressed())):
+		# length from click to center of joystick background
+		var dist_from_center = (event.position - get_parent().global_position).length()
+		
+		# if pointer is within the joystick background, we can do stuff
+		if (dist_from_center <= max_dist * global_scale.x or event.get_index() == drag):
+			
+			set_global_position(event.position - radius * global_scale)
+			
+			# keeps button position within the radius of the joystick background
+			if (get_button_pos().length() > max_dist):
+				set_position(get_button_pos().normalized() * max_dist - radius)
+	
+			# keeps track of which pointer caused the movement
+			drag = event.get_index()
+	
+	# if pointer lets go, we reset the drag
+	if (event is InputEventScreenTouch and !event.is_pressed() and event.get_index() == drag):
+		drag = -1
+
+func get_value():
+	if (get_button_pos().length() > movement_threshold):
+		return get_button_pos().normalized()
+	else:
+		return Vector2.ZERO

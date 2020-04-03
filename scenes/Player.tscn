@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://graphics/sprites/player/player-movement-sprite.png" type="Texture" id=2]
 [ext_resource path="res://scenes/HealthBar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/player/Camera.gd" type="Script" id=4]
+[ext_resource path="res://scenes/Joystick.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 27.178
@@ -167,6 +169,10 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
+[sub_resource type="CapsuleShape2D" id=8]
+radius = 28.2363
+height = 247.269
+
 [node name="Player" type="KinematicBody2D"]
 scale = Vector2( 0.7, 0.7 )
 script = ExtResource( 1 )
@@ -201,5 +207,23 @@ margin_top = -370.017
 margin_right = -101.231
 margin_bottom = -370.017
 rect_scale = Vector2( 0.5, 0.5 )
+
+[node name="PlayerArea" type="Area2D" parent="."]
+
+[node name="PlayerHitbox" type="CollisionShape2D" parent="PlayerArea"]
+position = Vector2( 8.72612e-05, -125.666 )
+shape = SubResource( 8 )
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+current = true
+limit_smoothed = true
+smoothing_enabled = true
+script = ExtResource( 4 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Joystick" parent="HUD" instance=ExtResource( 5 )]
+position = Vector2( 185.008, 1744.96 )
+scale = Vector2( 0.339498, 0.339498 )
 [connection signal="update_health" from="." to="HealthBar" method="_on_Player_update_health"]
 [connection signal="timeout" from="DamageIntervalTimer" to="." method="_on_DamageIntervalTimer_timeout"]

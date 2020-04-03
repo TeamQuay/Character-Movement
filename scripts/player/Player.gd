@@ -1,20 +1,21 @@
 # inherits from KinematicBody2D
 extends KinematicBody2D
 
-# signals
 signal update_health(current_health)
 signal death()
 
 # vars for movement properties
 var accel = 20 				# How fast the player accelerates (orig. 15)
 var decel = 25				# How fast the player decelerates (orig. 30)
-var max_speed = 700			# Max speed the player can move
+var max_speed = 500			# Max speed the player can move (orig. 700)
 var min_speed = 0			# Minimum speed the player can move
+var velocity = 0			# Current velocity
+var movement = Vector2.ZERO # Stores movement in R^2 vector
+var move_click = false		# Whether player clicked to move
 
-# vars for runtime
-var velocity = 0
-var movement = Vector2.ZERO
-var drag = false
+# vars for movement latency and more
+var latency_frames = 11		# Number of frames of latency to apply to movement
+var latency_list = []		# List used to "count down" frames before movement
 var max_health = 100
 
 # vars created when _ready called ("$" is a way to get node in the same scene)
@@ -22,43 +23,33 @@ onready var animate_movement = $MovementAnimator
 onready var animate_damage = $DamageAnimator
 onready var current_health = max_health setget set_health
 onready var damage_interval_timer = $DamageIntervalTimer
+onready var joystick = $HUD/Joystick/JoystickButton
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("Spawned: Player with ", current_health, "hp.")
+	for _i in range(latency_frames):
+		latency_list.append(Vector2.ZERO)
 
+# movement functions --------------------------------------
 
 # Runs every frame
-func _physics_process(_delta):
-	# get mouse pos and set next movement
-	var pos = get_global_mouse_position()
-	movement = pos - position
+func _process(_delta):
+	movement = joystick.get_value()
 	
-	# if click and movement non-zero, accelerate
-	if (drag and movement != Vector2.ZERO):
-		# play walkright if movement is positive x, else walkleft
-		if movement.x > 0:
+	# animations
+	if (movement != Vector2.ZERO):
+		if (movement.x > 0):
 			animate_movement.play("WalkRight")
 		else:
 			animate_movement.play("WalkLeft")
-		accelerate(accel)
 	else:
 		animate_movement.play("IdleLeft")
-		decelerate(decel)
-		
-	# stop player if they slow enough
-	if velocity < accel:
-		velocity = 0
-		
-	# normalize movement and add new velocity
-	if (movement.length() > velocity):
-		movement = velocity * movement.normalized()
-		
-	# apply movement using slide, which doesn't need delta!
-	# returns R2 vector after collision
-	movement = move_and_slide(movement)
 
-# movement functions --------------------------------------
+	#movement = apply_latency(movement)
+	movement = move_and_slide(movement * max_speed)
+
 
 func accelerate(magnitude):
 	if (velocity + magnitude <= max_speed):
@@ -67,17 +58,16 @@ func accelerate(magnitude):
 func decelerate(magnitude):
 	if (velocity - magnitude >= min_speed):
 		velocity -= magnitude
-		
+
+func apply_latency(vector):
+	latency_list.append(vector)
+	if (len(latency_list) > latency_frames):
+		latency_list.remove(0)
+	return latency_list[0]
 	
 func _input(event):
-	# On mouse button click
-	if (event is InputEventMouseButton):
-		if drag:
-			drag = false
-		else:
-			drag = true
 	# FOR TESTING: player takes damage when "A" key pressed
-	elif (event is InputEventKey):
+	if (event is InputEventKey):
 		if (event.pressed  and event.scancode == KEY_A):
 			damage_player(10)
 
@@ -93,13 +83,13 @@ func damage_player(val):
 	# don't damage if within free interval
 	if (damage_interval_timer.is_stopped()):
 		damage_interval_timer.start()
-		# call set_health with new val
+		# call set_health with new hp after damaged
 		set_health(current_health - val)
 		# play red flicker damage animation
 		animate_damage.play("DamageRedFlicker")
 		
 func _on_DamageIntervalTimer_timeout():
-	# when timer timeouts, reset to "idle" no-flicker state
+	# when not taking damage, reset to "idle" no-flicker state
 	animate_damage.play("NoDamage")
 
 
@@ -115,3 +105,4 @@ func set_health(val):
 			emit_signal("death")
 	# FOR TESTING: print health to console
 	print("Health:", current_health)
+	
