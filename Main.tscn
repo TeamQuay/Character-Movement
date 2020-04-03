@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://graphics/sprites/background/stone-bg.png" type="Texture" id=1]
+[ext_resource path="res://scenes/environment/Terrain.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/environment/Rock.tscn" type="PackedScene" id=3]
-[ext_resource path="res://graphics/sprites/background/grass.png" type="Texture" id=4]
-[ext_resource path="res://scenes/HealthBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/environment/Firepit.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/environment/ThornBush.tscn" type="PackedScene" id=5]
 
 [node name="Main" type="Node2D"]
 
@@ -15,44 +15,40 @@ __meta__ = {
 
 [node name="WallColliderBack" type="CollisionPolygon2D" parent="WorldBorder"]
 polygon = PoolVector2Array( -8, -8, 304, -416, 1496, -416, 1504, 1736, 1088, 1920, 1080, 8 )
+disabled = true
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="WallColliderFront" type="CollisionPolygon2D" parent="WorldBorder"]
 polygon = PoolVector2Array( 1072, 1920, 664, 2128, -376, 2128, -384, 400, -8, 8, -8, 1920 )
-
-[node name="GrassBG" type="Sprite" parent="."]
-position = Vector2( -8, -8 )
-scale = Vector2( 0.12254, 0.127648 )
-texture = ExtResource( 4 )
-centered = false
-region_enabled = true
-region_rect = Rect2( -448, 0, 8944, 15104 )
+disabled = true
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="StoneBG" type="Sprite" parent="."]
-visible = false
-position = Vector2( 532.837, 968.422 )
-texture = ExtResource( 1 )
-__meta__ = {
-"_edit_lock_": true
-}
+[node name="Terrain" parent="." instance=ExtResource( 1 )]
+position = Vector2( 593.196, 733.406 )
 
 [node name="YSort" type="YSort" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Rock" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 242.069, 1037.44 )
+position = Vector2( 180.012, 683.482 )
 
 [node name="Rock2" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 606.792, 1321.8 )
+position = Vector2( 343.398, 1296.1 )
 
 [node name="Rock3" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 920, 640 )
+position = Vector2( 673.248, 949.194 )
+
+[node name="Firepit" parent="YSort" instance=ExtResource( 4 )]
+position = Vector2( 542.566, 633.456 )
+
+[node name="ThornBush" parent="YSort" instance=ExtResource( 5 )]
+position = Vector2( 844.133, 1243.78 )
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
-position = Vector2( 544, 1752 )
-
-[node name="HUD" type="CanvasLayer" parent="."]
-
-[node name="HealthBar" parent="HUD" instance=ExtResource( 5 )]
-visible = false
+position = Vector2( 558.406, 1682.07 )

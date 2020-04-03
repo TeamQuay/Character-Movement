@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="spellcasting"
+config/name="character-movement"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
@@ -28,6 +28,11 @@ window/size/test_height=854
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [rendering]
 
+quality/2d/use_pixel_snap=true
 environment/default_environment="res://default_env.tres"
