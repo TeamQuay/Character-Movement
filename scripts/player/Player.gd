@@ -1,4 +1,3 @@
-# inherits from KinematicBody2D
 extends KinematicBody2D
 
 signal update_health(current_health)
@@ -38,7 +37,7 @@ func _ready():
 func _process(_delta):
 	movement = joystick.get_value()
 	
-	# animations
+	# animations (fix this!)
 	if (movement != Vector2.ZERO):
 		if (movement.x > 0):
 			animate_movement.play("WalkRight")
@@ -47,31 +46,22 @@ func _process(_delta):
 	else:
 		animate_movement.play("IdleLeft")
 
-	#movement = apply_latency(movement)
 	movement = move_and_slide(movement * max_speed)
 
-
-func accelerate(magnitude):
-	if (velocity + magnitude <= max_speed):
-		velocity += magnitude
-
-func decelerate(magnitude):
-	if (velocity - magnitude >= min_speed):
-		velocity -= magnitude
-
+# might use this later..?
 func apply_latency(vector):
 	latency_list.append(vector)
 	if (len(latency_list) > latency_frames):
 		latency_list.remove(0)
 	return latency_list[0]
-	
+
+# ---------------------------------------------------------
+
 func _input(event):
 	# FOR TESTING: player takes damage when "A" key pressed
 	if (event is InputEventKey):
 		if (event.pressed  and event.scancode == KEY_A):
 			damage_player(10)
-
-# ---------------------------------------------------------
 
 func kill_player():
 	# WIP

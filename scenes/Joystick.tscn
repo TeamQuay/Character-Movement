@@ -9,6 +9,7 @@
 radius = 150.0
 
 [node name="Joystick" type="Sprite"]
+modulate = Color( 1, 1, 1, 0.784314 )
 texture = ExtResource( 1 )
 
 [node name="JoystickButton" type="TouchScreenButton" parent="."]

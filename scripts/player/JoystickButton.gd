@@ -1,11 +1,17 @@
 extends TouchScreenButton
 
-
 var radius = Vector2(150, 150)	# Radius of the button
 var max_dist = 250 				# How far the button can be dragged from center
 var drag = -1					# Tracks which pointer is touching the screen
 var snap_accel = 20				# Accel for button to snap back to center
-var movement_threshold = 100	# Max dist from center to move button before movement
+
+# Min dist to move joystick from center for each movement
+var run_threshold = 200			
+var walk_threshold = 100
+var sneak_threshold = 50		
+# Movement factor when walking/sneaking
+const WALK_CONST = 0.5			
+const SNEAK_CONST = 0.1
 
 
 func get_button_pos():
@@ -42,8 +48,19 @@ func _input(event):
 	if (event is InputEventScreenTouch and !event.is_pressed() and event.get_index() == drag):
 		drag = -1
 
+
 func get_value():
-	if (get_button_pos().length() > movement_threshold):
-		return get_button_pos().normalized()
+	var movement: Vector2
+	# running speed (past run_threshold radius on joystick)
+	if (get_button_pos().length() > run_threshold):
+		movement = get_button_pos().normalized()
+	# walking speed (past walk_threshold radius on joystick)
+	elif (get_button_pos().length() > walk_threshold):
+		movement = get_button_pos().normalized() * 0.5
+	# sneak speed (past sneak_threshold radius on joystick)
+	elif (get_button_pos().length() > sneak_threshold):
+		movement = get_button_pos().normalized() * 0.1
 	else:
-		return Vector2.ZERO
+		movement = Vector2.ZERO
+	
+	return movement
