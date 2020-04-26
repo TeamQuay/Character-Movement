@@ -1,17 +1,17 @@
-extends Camera2D
+extends Position2D
 
-const MIDDLE_CLICK = 3
-const SCROLL_UP = 4
-const SCROLL_DOWN = 5
+# The camera_distance_multiplyer is multiplyed by the player movement to 
+# make the camera go in front of the player as they are moveing.
+var camera_distance_multiplyer = 0.5
+onready var parent = $".."
 
-func _input(event):
-	if event is InputEventMouseButton:
-		match event.button_index:
-			SCROLL_UP:		# zoom out
-				self.zoom *= 0.5
-			SCROLL_DOWN: 	# zoom in
-				self.zoom *= 1.5
-			MIDDLE_CLICK:
-				self.zoom.x = 1
-				self.zoom.y = 1
-				
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	update_position()
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float):
+	update_position()
+
+func update_position():
+	position = parent.movement * camera_distance_multiplyer
