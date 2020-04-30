@@ -1,10 +1,14 @@
 [gd_scene load_steps=32 format=2]
 
-[ext_resource path="res://scripts/player/Player.gd" type="Script" id=1]
+[ext_resource path="res://scripts/player/player.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/player/main-character-sprite-sheet.png" type="Texture" id=2]
-[ext_resource path="res://scenes/HealthBar.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scripts/player/Camera.gd" type="Script" id=5]
-[ext_resource path="res://scenes/Joystick.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/health_bar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/player/camera.gd" type="Script" id=5]
+[ext_resource path="res://scenes/joystick.tscn" type="PackedScene" id=6]
+
+
+
+
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 2.81673
