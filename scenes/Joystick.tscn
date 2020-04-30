@@ -8,11 +8,11 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
 
-[node name="Joystick" type="Sprite"]
+[node name="joystick" type="Sprite"]
 modulate = Color( 1, 1, 1, 0.941176 )
 texture = ExtResource( 2 )
 
-[node name="JoystickButton" type="TouchScreenButton" parent="."]
+[node name="joystick_button" type="TouchScreenButton" parent="."]
 normal = ExtResource( 3 )
 pressed = ExtResource( 1 )
 shape = SubResource( 1 )

@@ -31,7 +31,6 @@ func _input(event):
 	if (event is InputEventScreenDrag or (event is InputEventScreenTouch and event.is_pressed())):
 		# length from click to center of joystick background
 		var dist_from_center = (event.position - get_parent().global_position).length()
-		print(dist_from_center)
 		
 		# if pointer is within the joystick background, we can do stuff
 		if (dist_from_center <= max_dist * global_scale.x or event.get_index() == drag):
@@ -45,7 +44,7 @@ func _input(event):
 			# keeps track of which pointer caused the movement
 			drag = event.get_index()
 	
-	# if pointer lets go, we reset the drag
+	# if pointer released, we reset the drag
 	if (event is InputEventScreenTouch and !event.is_pressed() and event.get_index() == drag):
 		drag = -1
 
